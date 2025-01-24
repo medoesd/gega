@@ -1,0 +1,591 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GigaNest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #121212;
+        color: #fff;
+        overflow-x: hidden;
+    }
+video#background-video {
+    position: fixed; /* Fixed position to cover the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    object-fit: cover; /* Cover the entire area */
+    z-index: -1; /* Behind all other content */
+    opacity: 0.7; /* Optional: slightly transparent */
+}
+
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+
+    .active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+h1 {
+text-align: center;
+}
+
+    h1 {
+        font-size: 65px;
+color: #fff;
+font-weight: 600;
+transition: 0.5s;
+    }
+h1:hover{
+-webkit-text-stroke: 2px #fff;
+color: transparent
+}
+   .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 10px;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin: auto;
+        position: relative;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    img {
+        width: 80%;
+        border-radius: 15px;
+        transition: transform 0.3s ease;
+    }
+
+    img:hover {
+        transform: scale(1.05);
+    }
+
+    .button {
+    background: #21c45a;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+.button:hover {
+    background: #39de74;
+    transform: translateY(-2px);
+}
+.remove-button {
+    background: #c82333; /* Red background for remove button */
+    color: #fff; /* White text */
+}
+.remove-button:hover {
+            background-color: #ff4d4d;
+        }
+
+    .available-space {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+
+    .contact-form {
+        margin-top: 40px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+    .vertical-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        max-width: 500px;
+    }
+
+    .vertical-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    .vertical-form input, 
+    .vertical-form textarea {
+        width: calc(100% - 20px);
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px 0;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+    }
+@media (max-width: 768px) {
+    #page2 h4 {
+        margin-top: 10px; /* Adjust this value to control the spacing */
+    }
+}
+
+    @media (max-width: 768px) {
+        .grid {
+            grid-template-columns: 1fr; /* Stack cards on smaller screens */
+        }
+    }
+    @media (max-width: 1080px) and (max-height: 1920px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr); /* 2 columns for specific mobile size */
+        }
+    }
+.progress-bar-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background for visibility */
+    padding: 10px;
+    border-radius: 10px;
+    display: none; /* Initially hidden */
+    opacity: 0;
+    transition: opacity 0.5s ease; /* Smooth fade-in/out transition */
+    color: #fff; /* Make text color white */
+    text-align: center;
+    font-size: 14px;
+    z-index: 10; /* Ensure it is on top */
+}
+progress {
+    appearance: none;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 200px;
+    height: 20px;
+    transition: width 0.4s ease-in-out; /* Animation for smooth progress change */
+}
+
+progress::-webkit-progress-bar {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #1ed760; /* Color of the filled portion */
+}
+
+progress::-moz-progress-bar {
+    background-color: #fb8500;
+}
+
+#remaining-space {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #fff; /* White text color */
+}
+.search-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    margin-bottom: 30px; /* Adjust space below the search bar */
+    margin-top: 15px; /* Move it up by 10px */
+}
+
+
+.search-container input {
+    transition: border 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent; /* You can also change to your desired color */
+    padding: 10px; /* Keep padding consistent */
+    border-radius: 20px; /* Adjust for more rounded corners */
+    width: 100%; /* Full width of the container */
+    max-width: 500px; /* Limit width */
+    box-sizing: border-box; /* Includes padding in width/height calculations */
+}
+
+.search-container input:focus {
+    border: 2px solid #1ed760; /* Change to desired focus color */
+    transform: scale(1.05);
+    outline: none;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+#page1 .grid {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    flex-direction: row; /* Ensure items are in a row */
+    gap: 10px; /* Optional: Add a small gap between cards */
+    margin-top: 20px; /* Optional: Add some margin on top */
+}
+
+#page1 .card {
+    width: 200px; /* Keep the cards small */
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 0; /* Remove any margin around the cards */
+}
+
+#page1 img {
+    width: 70%; /* Adjust image size for smaller cards */
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+#page1 .card {
+    padding: 10px; /* Adjust padding if necessary */
+}
+
+</style>
+<body>
+ <video id="background-video" autoplay muted loop>
+        <source src="https://embed-ssl.wistia.com/deliveries/97a03c87c808baf7bd65cc8127a5b8a39bdc6012.bin?disposition=attachment&filename=background+video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div id="video-overlay"></div> <!-- Overlay to darken the video -->
+    <div class="container active" id="page1">
+        <h1>GigaNest</h1>
+        <div class="grid">
+            <div class="card" id="drive-500">
+                <img src="https://i.ibb.co/y4J3q8r/500gb.webp" alt="500gb" border="0">
+                <h2>500GB Hard Drive</h2>
+                <button class="button drive-button" onclick="selectDrive('500')">Select Drive</button>
+            </div>
+            <div class="card" id="drive-1tb">
+                <img src="https://i.ibb.co/DRYsjxn/wd-blue-hdd-1tb-550x550.webp" alt="wd-blue-hdd-1tb-550x550" border="0">
+                <h2>1TB Hard Drive</h2>
+                <button class="button drive-button" onclick="selectDrive('1tb')">Select Drive</button>
+            </div>
+        </div>
+<div style="text-align: center; margin-top: 20px;">
+    <a href="https://www.tiktok.com/@hamdygamestore" target="_blank" style="color: #fff; font-size: 30px; text-decoration: none;">
+        <i class="fab fa-tiktok"></i> Follow Us on TikTok
+    </a>
+</div>
+</div>
+<!-- Progress Bar Floating Container -->
+<div class="progress-bar-container">
+    <label for="space-progress" style="display:block; margin-bottom: 5px; color: #fff;">Storage Used:</label>
+    <progress id="space-progress" value="0" max="100"></progress>
+    <div id="remaining-space">Remaining space: 0 GB</div> <!-- New remaining space text -->
+</div>
+
+  <div class="container" id="page2" style="display: none;">
+<div class="search-container">
+    <input type="text" id="search-bar" placeholder="Search for games..." onkeyup="filterGames()">
+</div>
+
+<div id="suggestions" style="text-align: center; margin-top: 10px;"></div>
+
+    <div class="grid" id="game-selection"></div>
+    <div class="available-space" id="available-space">Available Space: 0GB</div>
+    <div class="added-games" id="added-games">
+        <h2>Added Games:</h2>
+        <ul id="game-list"></ul>
+    </div>
+        <div class="contact-form">
+    <h2>Contact Us</h2>
+    <form class="vertical-form" id="contactForm" action="https://submit-form.com/NKlPTs9iB" method="POST" onsubmit="handleSubmit(event)">
+        <label for="Name">Name</label>
+        <input id="Name" name="Name" type="text" required />
+        <label for="WhatsApp-Number">WhatsApp Number</label>
+        <input id="WhatsApp-Number" name="WhatsApp Number" type="text" required />
+        <label for="selected-drive">Selected Hard Drive</label>
+        <input id="selected-drive" name="selected-drive" type="text" readonly value="Your Selected Drive" />
+        <label for="added-games">Selected Games</label>
+        <textarea id="added-games-textarea" name="added-games" readonly>Your Selected Games</textarea>
+        <button class="button" type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    function handleSubmit(event) {
+    event.preventDefault();
+    const whatsappNumber = document.getElementById('WhatsApp-Number').value;
+    const selectedDrive = document.getElementById('selected-drive').value;
+    const addedGames = document.getElementById('added-games-textarea').value;
+    if (addedGames.trim() === '' || gamesAdded.length === 0) {
+        alert("Please select at least one game before submitting.");
+        return; // Stop the form submission
+    }
+    const message = `Selected Drive: ${selectedDrive}%0AAdded Games: ${addedGames}`;
+    const whatsappLink = `https://wa.me/${201063903369}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappLink, '_blank');
+    event.target.submit(); // Submits the form data to the endpoint
+}
+
+</script>
+        <footer>
+            <p>&copy; 2024 Hamdy Store. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let totalSpace = 0;
+let usedSpace = 0;
+let selectedDrive = '';
+const gamesAdded = [];
+
+const predefinedGames = [
+    {
+        name: "Alan Wake 2",
+        size: 79.8,
+        image: "https://i.ibb.co/R0Pkhhv/kk.jpg"
+    },
+{
+        name: "A Plague Tale: Requiem",
+        size: 47.2,
+        image: "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1182900/header.jpg?t=1728401377"
+    }
+    ];
+
+function displayGames() {
+    const gameSelection = document.getElementById('game-selection');
+    gameSelection.innerHTML = ''; // Clear previous games
+
+    predefinedGames.forEach(game => {
+        const isPaid = ["Battlefield 1", "Battlefield 2042", "Battlefield 4", "Battlefield 5", "Chivalry 2", "Dead by Daylight", "FC 24", "FIFA 22", "Hunt: Showdown 1896", "Grand Theft Auto V", "Tom Clancys Rainbow Six Siege"].includes(game.name);
+        
+        // Update online games list to include the new ones
+        const isOnline = [
+            "Battlefield 2042", "Apex Legends", "Battlefield 1", "Battlefield 4", "Battlefield 5", 
+            "Chivalry 2", "Counter-Strike 2", "Dead by Daylight", "FC 24", "FIFA 22", "Hunt: Showdown 1896", "Grand Theft Auto V", 
+            "Rocket League", "The Finals", "Tom Clancys Rainbow Six Siege"
+        ].includes(game.name);
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <img src="${game.image}" alt="${game.name} - Image">
+            <h3>${game.name} 
+                ${isPaid ? '<i class="fas fa-dollar-sign" style="color: #21c45a;" title="Paid Game"></i>' : ''} 
+                ${isOnline ? '<i class="fa-solid fa-earth" style="color: #21c45a;" title="Online Game"></i>' : ''} 
+            </h3>
+            <p>Size: ${game.size}GB</p>
+            <button class="button" onclick="addGame('${game.name}', ${game.size}, this)">Add Game</button>
+        `;
+        gameSelection.appendChild(card);
+    });
+}
+        function selectDrive(drive) {
+    if (drive === '500') {
+        totalSpace = 465;  // Actual usable space for a 500GB hard drive
+        selectedDrive = '500GB Hard Drive';
+    } else if (drive === '1tb') {
+        totalSpace = 931;  // Actual usable space for a 1TB hard drive
+        selectedDrive = '1TB Hard Drive';
+    }
+    document.getElementById('available-space').innerText = `Available Space: ${totalSpace}GB`;
+    transitionToPage('page1', 'page2');
+}
+
+
+       let progressBarVisible = false; // Flag to control progress bar visibility
+let progressBarTimeout = null; // Timeout variable for delaying hiding the progress bar
+
+function updateProgressBar() {
+    const progressBarContainer = document.querySelector('.progress-bar-container');
+    const progressBar = document.getElementById('space-progress');
+    const remainingSpaceLabel = document.getElementById('remaining-space');
+
+    const percentageUsed = (usedSpace / totalSpace) * 100;
+    const remainingSpace = totalSpace - usedSpace;
+
+    progressBar.value = percentageUsed;
+    remainingSpaceLabel.textContent = `Remaining space: ${remainingSpace.toFixed(2)} GB`;
+    if (!progressBarVisible) {
+        progressBarContainer.style.display = 'block';
+        progressBarContainer.style.opacity = '1';
+        progressBarVisible = true; // Set flag to true
+    }
+    clearTimeout(progressBarTimeout);
+    progressBarTimeout = setTimeout(() => {
+        progressBarContainer.style.opacity = '0'; // Fade out
+        setTimeout(() => {
+            progressBarContainer.style.display = 'none'; // Hide after fade-out
+            progressBarVisible = false; // Reset visibility flag
+        }, 500); // Wait for fade-out to complete
+    }, 2000); // Adjust the timeout duration as necessary
+}
+function addGame(name, size, button) {
+    const availableSpace = totalSpace - usedSpace;
+    if (button.innerText === 'Remove Game') {
+        const confirmRemove = confirm(`Do you want to remove ${name} (${size}GB)?`);
+        if (confirmRemove) {
+            removeGame(name, size, button);  // Pass the button for proper state handling
+        }
+    } else {
+        if (usedSpace + size <= totalSpace) {
+            gamesAdded.push({ name, size });
+            usedSpace += size;
+            updateGameList();
+            updateAvailableSpace();
+            updateProgressBar();  // Update the progress bar
+            button.innerText = 'Remove Game';  // Change button text to 'Remove Game'
+            button.classList.add('remove-button');  // Add the red button class
+        } else {
+            alert(`Not enough space! Available space: ${availableSpace.toFixed(2)}GB`);
+        }
+    }
+}
+
+function removeGame(name, size, button) {
+    const index = gamesAdded.findIndex(game => game.name === name);
+    if (index !== -1) {
+        gamesAdded.splice(index, 1);  // Remove the game from the array
+        usedSpace -= size;  // Update used space
+        updateGameList();  // Update the displayed list of added games
+        updateAvailableSpace();  // Update available space
+        updateProgressBar();  // Update the progress bar
+        button.innerText = 'Add Game';  // Change button text back to 'Add Game'
+        button.classList.remove('remove-button'); // Remove the red button class
+        button.disabled = false; // Enable the button again
+    }
+}
+
+
+
+
+function filterGames() {
+    const searchInput = document.getElementById('search-bar').value.toLowerCase();
+    const gameSelection = document.getElementById('game-selection');
+    const cards = gameSelection.getElementsByClassName('card');
+
+    for (let i = 0; i < cards.length; i++) {
+        const gameName = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+        if (gameName.includes(searchInput)) {
+            cards[i].style.display = ''; // Show the card
+        } else {
+            cards[i].style.display = 'none'; // Hide the card
+        }
+    }
+}
+
+
+
+
+
+        function updateAvailableSpace() {
+    const availableSpace = totalSpace - usedSpace;
+    document.getElementById('available-space').innerText = `Available Space: ${availableSpace.toFixed(2)}GB`;
+}
+
+
+        function updateGameList() {
+        const gameList = document.getElementById('game-list');
+        const addedGamesTextarea = document.getElementById('added-games-textarea');
+        gameList.innerHTML = '';
+        let gamesText = '';
+        let totalSpaceUsed = 0; // Initialize total space used
+        gamesAdded.forEach(game => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${game.name} - ${game.size}GB`;
+            gameList.appendChild(listItem);
+           gamesText += `${game.name} - ${game.size}GB\n`;
+            totalSpaceUsed += game.size; // Add the game size to total
+        });
+        gamesText += `\nTotal Space Used: ${totalSpaceUsed}GB`;
+       addedGamesTextarea.value = gamesText.trim();
+    }
+
+        function transitionToPage(fromPage, toPage) {
+            document.getElementById(fromPage).style.display = 'none';
+            document.getElementById(toPage).style.display = 'block';
+            setTimeout(() => {
+                document.getElementById(toPage).classList.add('active');
+            }, 0);
+            if (fromPage === 'page1') {
+                document.getElementById('selected-drive').value = selectedDrive; // Update drive selection in the form
+            }
+        }
+
+        function finalizeSelection() {
+            alert('Game selection finalized!');
+        }
+        window.onload = displayGames;
+function transitionToPage(fromPage, toPage) {
+    document.getElementById(fromPage).style.display = 'none';
+    document.getElementById(toPage).style.display = 'block';
+    setTimeout(() => {
+        document.getElementById(toPage).classList.add('active');
+    }, 0);
+    
+    if (fromPage === 'page1') {
+        document.getElementById('selected-drive').value = selectedDrive; // Update drive selection in the form
+        document.getElementById('background-video').style.display = 'none'; // Hide the video when navigating to the library
+    }
+}
+// Function to fetch game data from the external JSON file
+async function fetchGames() {
+    try {
+        const response = await fetch('games.json');
+        const gamesData = await response.json();
+        displayGames(gamesData);  // Call the displayGames function with the fetched data
+    } catch (error) {
+        console.error("Error loading games data:", error);
+    }
+}
+
+// Modify the displayGames function to accept the fetched game data
+function displayGames(gamesData) {
+    const gameSelection = document.getElementById('game-selection');
+    gameSelection.innerHTML = ''; // Clear previous games
+
+    gamesData.forEach(game => {
+        const isPaid = ["Battlefield 1", "Battlefield 2042", "Battlefield 4", "Battlefield 5", "Chivalry 2", "Dead by Daylight", "FC 24", "FIFA 22", "Hunt: Showdown 1896", "Grand Theft Auto V", "Tom Clancys Rainbow Six Siege"].includes(game.name);
+        
+        const isOnline = [
+            "Battlefield 2042", "Apex Legends", "Battlefield 1", "Battlefield 4", "Battlefield 5", 
+            "Chivalry 2", "Counter-Strike 2", "Dead by Daylight", "FC 24", "FIFA 22", "Hunt: Showdown 1896", "Grand Theft Auto V", 
+            "Rocket League", "The Finals", "Tom Clancys Rainbow Six Siege"
+        ].includes(game.name);
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <img src="${game.image}" alt="${game.name} - Image">
+            <h3>${game.name} 
+                ${isPaid ? '<i class="fas fa-dollar-sign" style="color: #21c45a;" title="Paid Game"></i>' : ''} 
+                ${isOnline ? '<i class="fa-solid fa-earth" style="color: #21c45a;" title="Online Game"></i>' : ''} 
+            </h3>
+            <p>Size: ${game.size}GB</p>
+            <button class="button" onclick="addGame('${game.name}', ${game.size}, this)">Add Game</button>
+        `;
+        gameSelection.appendChild(card);
+    });
+}
+
+// Call the fetchGames function when the page loads
+window.onload = fetchGames;
+
+</script>
+</body>
+</html>

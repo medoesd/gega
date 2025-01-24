@@ -9,6 +9,11 @@
     "size": 47.2,
     "image": "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1182900/header.jpg?t=1728401377"
 },
+  {
+        "name": "Apex Legends",
+        "size": 75,
+        "image": "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1172470/header.jpg?t=1728406989"
+    },
 {
     "name": "Atomic Heart",
     "size": 80,
@@ -56,7 +61,7 @@
 },
 {
     "name": "Battlefield 2042",
-    "size": 91.6,
+    "size": 94.4,
     "image": "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1517290/header.jpg?t=1733993411"
 },
 {

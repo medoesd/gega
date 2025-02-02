@@ -573,8 +573,8 @@ function displayGames(gamesData) {
         card.innerHTML = `
             <img src="${game.image}" alt="${game.name} - Image">
             <h3>${game.name} 
-                ${isPaid ? '<i class="fas fa-dollar-sign" style="color: #21c45a;" title="Paid Game"></i>' : ''} 
-                ${isOnline ? '<i class="fa-solid fa-earth" style="color: #21c45a;" title="Online Game"></i>' : ''} 
+                ${isPaid ? '<i class="fas fa-dollar-sign" style="color: #FFD700;" title="Paid Game"></i>' : ''} 
+                ${isOnline ? '<i class="fa-solid fa-earth" style="color: #FFD700;" title="Online Game"></i>' : ''} 
             </h3>
             <p>Size: ${game.size}GB</p>
             <button class="button" onclick="addGame('${game.name}', ${game.size}, this)">Add Game</button>

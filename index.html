@@ -226,12 +226,13 @@ progress::-moz-progress-bar {
 
     margin-left: auto;
     margin-right: auto;
+    box-sizing: border-box; /* ensures padding doesn't cause overflow */
 }
 
 .search-container:focus-within {
-    max-width: 500px;
+    max-width: min(500px, 100%); /* responsive fix */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.2);
-    border: 2px solid #fff; /* thicker white border on focus */
+    border: 2px solid #fff; /* white border on focus */
 }
 
 .search-icon {
@@ -262,10 +263,6 @@ progress::-moz-progress-bar {
         font-size: 14px;
     }
 }
-
-
-
-
 #page1 .grid {
     display: flex;
     justify-content: center; /* Center items horizontally */

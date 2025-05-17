@@ -627,6 +627,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+        document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("search-bar");
+  let savedScrollY = null;
+
+  searchInput.addEventListener("input", () => {
+    const value = searchInput.value;
+
+    if (value.length === 1 && savedScrollY === null) {
+      // First char typed, save scroll and scroll to top
+      savedScrollY = window.scrollY;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (value.length === 0 && savedScrollY !== null) {
+      // Input cleared, scroll back and reset saved position
+      window.scrollTo({ top: savedScrollY, behavior: "smooth" });
+      savedScrollY = null;
+    }
+  });
+});
 </script>
 </body>
 </html>

@@ -621,21 +621,40 @@ window.onload = fetchGames;
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-bar");
   let savedScrollY = null;
+  let hasSavedScroll = false;
+
+  // Save scroll before first character is typed
+  searchInput.addEventListener("keydown", (event) => {
+    // If scroll not saved and input is empty (before first char)
+    if (!hasSavedScroll && searchInput.value.length === 0) {
+      savedScrollY = window.scrollY;
+      hasSavedScroll = true;
+      // Scroll to top immediately or on next input event
+      // Option 1: scroll here immediately:
+      // window.scrollTo({ top: 0, behavior: "smooth" });
+      // Option 2: scroll on input event
+    }
+  });
 
   searchInput.addEventListener("input", () => {
     const value = searchInput.value;
 
-    if (value.length === 1 && savedScrollY === null) {
-      // Before typing first char, save scroll position, now scroll to top
-      savedScrollY = window.scrollY;
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else if (value.length === 0 && savedScrollY !== null) {
-      // Input cleared, scroll back to saved position
-      window.scrollTo({ top: savedScrollY, behavior: "smooth" });
-      savedScrollY = null;
+    if (value.length > 0) {
+      // Scroll to top only if scroll saved
+      if (hasSavedScroll) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    } else {
+      // Input cleared — scroll back and reset saved scroll
+      if (hasSavedScroll) {
+        window.scrollTo({ top: savedScrollY, behavior: "smooth" });
+        savedScrollY = null;
+        hasSavedScroll = false;
+      }
     }
   });
 });
+
 
 
 </script>

@@ -617,7 +617,16 @@ function displayGames(gamesData) {
 
 // Call the fetchGames function when the page loads
 window.onload = fetchGames;
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("search-bar");
 
+    searchInput.addEventListener("input", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+});
 </script>
 </body>
 </html>

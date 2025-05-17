@@ -620,16 +620,18 @@ function displayGames(gamesData) {
 window.onload = fetchGames;
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-bar");
+  let savedScrollY = null;
   let savedAnchorElement = null;
 
   function getAnchorElement() {
-    return document.querySelector("#content > *"); // adjust to your layout!
+    return document.querySelector("#content > *");
   }
 
   searchInput.addEventListener("keydown", () => {
-    if (searchInput.value.length === 0 && !savedAnchorElement) {
+    if (searchInput.value.length === 0) {
+      savedScrollY = window.scrollY;
       savedAnchorElement = getAnchorElement();
-      console.log("Saved anchor element:", savedAnchorElement);
+      console.log("Saved scrollY:", savedScrollY, "Anchor:", savedAnchorElement);
     }
   });
 
@@ -637,22 +639,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (searchInput.value.length > 0) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      if (savedAnchorElement) {
-        console.log("Scrolling back to anchor element");
-        // Scroll after a short delay to allow filtering to update
-        setTimeout(() => {
-          if (document.body.contains(savedAnchorElement)) {
-            savedAnchorElement.scrollIntoView({ behavior: "smooth", block: "start" });
-          } else {
-            console.log("Anchor element no longer in DOM");
-          }
-          savedAnchorElement = null;
-        }, 100); // delay may need adjustment
-      }
+      setTimeout(() => {
+        if (savedAnchorElement && document.body.contains(savedAnchorElement)) {
+          savedAnchorElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else if (savedScrollY !== null) {
+          window.scrollTo({ top: savedScrollY, behavior: "smooth" });
+        }
+        savedScrollY = null;
+        savedAnchorElement = null;
+      }, 100);
     }
   });
 });
-
 </script>
 </body>
 </html>

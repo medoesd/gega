@@ -627,24 +627,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
-        document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("search-bar");
-  let savedScrollY = null;
+       document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("search-bar");
+    let lastScrollY = 0;
 
-  searchInput.addEventListener("input", () => {
-    const value = searchInput.value;
-
-    if (value.length === 1 && savedScrollY === null) {
-      // First char typed, save scroll and scroll to top
-      savedScrollY = window.scrollY;
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else if (value.length === 0 && savedScrollY !== null) {
-      // Input cleared, scroll back and reset saved position
-      window.scrollTo({ top: savedScrollY, behavior: "smooth" });
-      savedScrollY = null;
-    }
-  });
+    searchInput.addEventListener("input", function () {
+        if (searchInput.value.length === 1) {
+            // User just started typing, save current scroll position
+            lastScrollY = window.scrollY;
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } else if (searchInput.value.length === 0) {
+            // Input cleared, scroll back to last position
+            window.scrollTo({ top: lastScrollY, behavior: "smooth" });
+        }
+    });
 });
+
 </script>
 </body>
 </html>

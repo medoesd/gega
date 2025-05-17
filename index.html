@@ -1,4 +1,5 @@
 
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -617,46 +618,34 @@ function displayGames(gamesData) {
 
 // Call the fetchGames function when the page loads
 window.onload = fetchGames;
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("search-bar");
+
+    searchInput.addEventListener("input", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+});
+        document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-bar");
-  const allCards = document.querySelectorAll('.card'); // updated selector
   let savedScrollY = null;
 
   searchInput.addEventListener("input", () => {
-    const query = searchInput.value.trim().toLowerCase();
+    const value = searchInput.value;
 
-    // Save scroll position when typing starts
-    if (query.length === 1 && savedScrollY === null) {
+    if (value.length === 1 && savedScrollY === null) {
+      // First char typed, save scroll and scroll to top
       savedScrollY = window.scrollY;
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    // Filter .card elements
-    allCards.forEach(card => {
-      if (card.textContent.toLowerCase().includes(query)) {
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
-      }
-    });
-
-    // If input is cleared, show all cards and scroll back
-    if (query.length === 0 && savedScrollY !== null) {
-      allCards.forEach(card => {
-        card.style.display = "block";
-      });
-
-      setTimeout(() => {
-        window.scrollTo({ top: savedScrollY, behavior: "smooth" });
-        savedScrollY = null;
-      }, 50);
+    } else if (value.length === 0 && savedScrollY !== null) {
+      // Input cleared, scroll back and reset saved position
+      window.scrollTo({ top: savedScrollY, behavior: "smooth" });
+      savedScrollY = null;
     }
   });
 });
-</script>
-
-
 </script>
 </body>
 </html>

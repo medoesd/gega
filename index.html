@@ -620,43 +620,36 @@ function displayGames(gamesData) {
 window.onload = fetchGames;
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-bar");
-  let savedScrollY = null;
-  let hasSavedScroll = false;
+  let savedAnchorElement = null;
 
-  // Save scroll before first character is typed
-  searchInput.addEventListener("keydown", (event) => {
-    // If scroll not saved and input is empty (before first char)
-    if (!hasSavedScroll && searchInput.value.length === 0) {
-      savedScrollY = window.scrollY;
-      hasSavedScroll = true;
-      // Scroll to top immediately or on next input event
-      // Option 1: scroll here immediately:
-      // window.scrollTo({ top: 0, behavior: "smooth" });
-      // Option 2: scroll on input event
+  // A function to get the first visible element in your content container
+  // You need to customize this selector to your page layout
+  function getAnchorElement() {
+    // For example, the first visible item in the list after filtering:
+    // return document.querySelector(".item:not([hidden])") 
+    // or a container element that is always present
+    return document.querySelector("#content > *"); // adjust as needed
+  }
+
+  searchInput.addEventListener("keydown", () => {
+    if (searchInput.value.length === 0 && !savedAnchorElement) {
+      savedAnchorElement = getAnchorElement();
     }
   });
 
   searchInput.addEventListener("input", () => {
-    const value = searchInput.value;
-
-    if (value.length > 0) {
-      // Scroll to top only if scroll saved
-      if (hasSavedScroll) {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+    if (searchInput.value.length > 0) {
+      // When typing, scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      // Input cleared — scroll back and reset saved scroll
-      if (hasSavedScroll) {
-        window.scrollTo({ top: savedScrollY, behavior: "smooth" });
-        savedScrollY = null;
-        hasSavedScroll = false;
+      // Input cleared, scroll the saved element into view and reset
+      if (savedAnchorElement) {
+        savedAnchorElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        savedAnchorElement = null;
       }
     }
   });
 });
-
-
-
 </script>
 </body>
 </html>

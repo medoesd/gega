@@ -618,34 +618,27 @@ function displayGames(gamesData) {
 
 // Call the fetchGames function when the page loads
 window.onload = fetchGames;
-document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("search-bar");
-
-    searchInput.addEventListener("input", function () {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
-});
-        document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-bar");
   let savedScrollY = null;
+  let hasSavedOnce = false;
 
   searchInput.addEventListener("input", () => {
     const value = searchInput.value;
 
-    if (value.length === 1 && savedScrollY === null) {
-      // First char typed, save scroll and scroll to top
+    if (value.length > 0 && savedScrollY === null && !hasSavedOnce) {
+      // Save scroll position only once
       savedScrollY = window.scrollY;
+      hasSavedOnce = true;
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else if (value.length === 0 && savedScrollY !== null) {
-      // Input cleared, scroll back and reset saved position
+      // Input cleared – scroll back to original saved position
       window.scrollTo({ top: savedScrollY, behavior: "smooth" });
       savedScrollY = null;
     }
   });
 });
+
 </script>
 </body>
 </html>

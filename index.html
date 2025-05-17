@@ -617,63 +617,45 @@ function displayGames(gamesData) {
 
 // Call the fetchGames function when the page loads
 window.onload = fetchGames;
-document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("search-bar");
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("search-bar");
+  const allCards = document.querySelectorAll('.card'); // updated selector
+  let savedScrollY = null;
 
-    searchInput.addEventListener("input", function () {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim().toLowerCase();
+
+    // Save scroll position when typing starts
+    if (query.length === 1 && savedScrollY === null) {
+      savedScrollY = window.scrollY;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Filter .card elements
+    allCards.forEach(card => {
+      if (card.textContent.toLowerCase().includes(query)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
     });
-});
-       document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("search-bar");
-    let lastScrollY = 0;
 
-    searchInput.addEventListener("input", function () {
-        if (searchInput.value.length === 1) {
-            // User just started typing, save current scroll position
-            lastScrollY = window.scrollY;
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        } else if (searchInput.value.length === 0) {
-            // Input cleared, scroll back to last position
-            window.scrollTo({ top: lastScrollY, behavior: "smooth" });
-        }
-    });
-});
-let savedScrollY = null;
+    // If input is cleared, show all cards and scroll back
+    if (query.length === 0 && savedScrollY !== null) {
+      allCards.forEach(card => {
+        card.style.display = "block";
+      });
 
-searchInput.addEventListener("input", () => {
-  const query = searchInput.value.trim().toLowerCase();
-
-  if (query.length === 1 && savedScrollY === null) {
-    savedScrollY = window.scrollY;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  // Filtering logic (replace with your own)
-  const allItems = document.querySelectorAll('.item');
-  allItems.forEach(item => {
-    if (item.textContent.toLowerCase().includes(query)) {
-      item.style.display = "block";
-    } else {
-      item.style.display = "none";
+      setTimeout(() => {
+        window.scrollTo({ top: savedScrollY, behavior: "smooth" });
+        savedScrollY = null;
+      }, 50);
     }
   });
-
-  // When input is cleared, restore all and scroll back
-  if (query.length === 0 && savedScrollY !== null) {
-    allItems.forEach(item => {
-      item.style.display = "block";
-    });
-
-    setTimeout(() => {
-      window.scrollTo({ top: savedScrollY, behavior: "smooth" });
-      savedScrollY = null;
-    }, 50); // Delay so the DOM has time to repaint
-  }
 });
+</script>
+
 
 </script>
 </body>
